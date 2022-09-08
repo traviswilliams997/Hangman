@@ -23,6 +23,15 @@ def check_letter_guess(array, word, guess)
     end
 
 end
+def check_win(array, word) 
+     
+    word.each_char.with_index do |char, index|
+        if char.to_s == array[index]
+        else
+        p 'lose'
+      end
+end
+end
 def game_round(guess_array, random_word)
     puts "Enter guess"
     player_choice = gets.chomp
@@ -36,6 +45,14 @@ correct_length_of_words(correct_length_words, words)
 random_word = choose_random_word(correct_length_words)
  puts random_word 
 
-guess_array = Array.new(random_word.length, "_")
-game_round(guess_array, random_word)
-p guess_array
+guess_array = Array.new(random_word.length - 1, "_")
+
+turns = 1;
+while turns < 7
+    game_round(guess_array, random_word)
+    p guess_array
+
+    turns = turns + 1
+end
+check_win(guess_array, random_word)
+    
