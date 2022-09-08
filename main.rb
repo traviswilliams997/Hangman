@@ -12,7 +12,7 @@ def correct_length_of_words(new_array, word_list)
      end
 end
 
-def guess_letter(array, word, guess)
+def check_letter_guess(array, word, guess)
     if word.include? guess
         word.each_char.with_index do |char, index|
           if char == guess
@@ -32,6 +32,6 @@ random_word = choose_random_word(correct_length_words)
   
 guess_array = Array.new(random_word.length, "_")
 player_choice = "B"
-guess_letter(guess_array, random_word, player_choice)
+check_letter_guess(guess_array, random_word, player_choice)
 
 p guess_array
