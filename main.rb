@@ -12,7 +12,8 @@ def correct_length_of_words(new_array, word_list)
      end
 end
 
-def check_letter_guess(array, word, guess)
+def check_letter_guess(array, word, guess, turns)
+   puts turns[0]
     if word.include? guess
         word.each_char.with_index do |char, index|
           if char == guess
@@ -20,22 +21,38 @@ def check_letter_guess(array, word, guess)
         end
     end
         else
+            turns[0] = turns[0] + 1;
     end
 
 end
-def check_win(array, word) 
+def check_win(array, word,turns) 
+    correct_letter_count = 0
+
      
     word.each_char.with_index do |char, index|
         if char.to_s == array[index]
+            p 'Yes_match_'
+            correct_letter_count = correct_letter_count + 1;
         else
-        p 'lose'
+        p 'No_maatch'
       end
+     
+
 end
+if correct_letter_count == array.length
+    puts 'U win'
+    turns[0] = 7
+
+  else
+    puts 'still no win'
+  end
 end
-def game_round(guess_array, random_word)
+def game_round(guess_array, random_word, turns)
     puts "Enter guess"
     player_choice = gets.chomp
-    check_letter_guess(guess_array, random_word, player_choice)
+    check_letter_guess(guess_array, random_word, player_choice, turns)
+    check_win(guess_array, random_word,turns)
+
     
     
 end
@@ -47,12 +64,11 @@ random_word = choose_random_word(correct_length_words)
 
 guess_array = Array.new(random_word.length - 1, "_")
 
-turns = 1;
-while turns < 7
-    game_round(guess_array, random_word)
-    p guess_array
+turns = Array.new();
+turns[0] = 1
 
-    turns = turns + 1
+while turns[0] < 7
+    game_round(guess_array, random_word, turns)
+    p guess_array
 end
-check_win(guess_array, random_word)
     
