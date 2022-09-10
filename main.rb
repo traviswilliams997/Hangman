@@ -12,8 +12,9 @@ def correct_length_of_words(new_array, word_list)
      end
 end
 
+
+
 def check_letter_guess(array, word, guess, turns)
-   puts turns[0]
     if word.include? guess
         word.each_char.with_index do |char, index|
           if char == guess
@@ -31,25 +32,23 @@ def check_win(array, word,turns)
      
     word.each_char.with_index do |char, index|
         if char.to_s == array[index]
-            p 'Yes_match_'
             correct_letter_count = correct_letter_count + 1;
         else
-        p 'No_maatch'
       end
      
 
 end
 if correct_letter_count == array.length
-    puts 'U win'
+    puts 'You Win!'
     turns[0] = 7
 
   else
-    puts 'still no win'
+    puts "Keep Guessing!"
   end
 end
 def game_round(guess_array, random_word, turns)
     puts "Enter guess"
-    player_choice = gets.chomp
+    player_choice = gets.chomp.upcase
     check_letter_guess(guess_array, random_word, player_choice, turns)
     check_win(guess_array, random_word,turns)
 
