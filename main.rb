@@ -1,20 +1,24 @@
+require 'yaml'
+
 class Words
     attr_accessor :random_word
 
     def initialize
 
-        @words = File.readlines('google-10000-english-no-swears.txt')
+        @words = File.open('google-10000-english-no-swears.txt')
         @correct_length_words = Array.new
         self.correct_length_of_words(@correct_length_words, @words)
         @random_word = self.choose_random_word(@correct_length_words)
-         puts @random_word 
+        @words.close
+        
+         #puts @random_word 
     end
   def choose_random_word(words) 
    words.sample.upcase
 end
 
 def correct_length_of_words(new_array, word_list)
-    word_list.each do |word|
+    word_list.readlines.each do |word|
         if word.length > 5 && word.length < 13
            new_array << word
         end       
@@ -28,6 +32,7 @@ class Player1
     attr_accessor :player_choice
     def choose_letter_for_guess
         puts "Enter guess"
+        puts "You have six wrong guesses!"
         @player_choice = gets.chomp.upcase
         @player_choice
 
@@ -46,7 +51,9 @@ class Game
         while @turns[0] < 7
             self.game_round(@guess_array, @W.random_word, @turns)
             p @guess_array
+            self.save_game
         end
+        puts @W.random_word
             
         end
     def check_letter_guess(array, word, guess, turns)
@@ -89,6 +96,20 @@ def game_round(guess_array, random_word, turns)
     check_win(guess_array, random_word,turns)
 
 end  
+
+def save_game
+    File.open("./hangman.yml", 'w') { |f| YAML.dump([] << self, f) }
+    
+  end
+
+  def load_game
+    begin
+      yaml = YAML.load_file("./hangman.yml")
+       puts yaml[0]
+    rescue
+      #@history = []
+    end
+  end
     
 end
 new_game = Game.new
