@@ -1,5 +1,8 @@
 ---
 - !ruby/object:Game
+  p1: !ruby/object:Player1
+    player_choice: A
+  run: true
   W: !ruby/object:Words
     words: !ruby/object:File {}
     correct_length_words:
@@ -22053,19 +22056,20 @@
     - 'poison
 
       '
-    random_word: 'EXISTED
+    random_word: 'DESIGNED
 
       '
-  p1: !ruby/object:Player1
-    player_choice: M
   guess_array:
   - _
+  - E
+  - S
   - _
   - _
-  - _
-  - _
-  - _
+  - N
+  - E
   - _
   turns:
-  - 7
-  guess: M
+  - 6
+  guesses_left: 2
+  guess: A
+  play_again: Y

@@ -31,8 +31,6 @@ end
 class Player1
     attr_accessor :player_choice
     def choose_letter_for_guess
-        puts "Enter guess"
-        puts "You have six wrong guesses!"
         @player_choice = gets.chomp.upcase
         @player_choice
 
@@ -42,8 +40,14 @@ end
 class Game
     def initialize
         
-        @W = Words.new
         @p1 = Player1.new
+        self.game_loop
+        
+        end
+    def game_loop
+        @run = true 
+        while @run == true
+        @W = Words.new
         @guess_array = Array.new(@W.random_word.length - 1, "_")
         @turns = Array.new();
         @turns[0] = 1
@@ -51,20 +55,30 @@ class Game
         while @turns[0] < 7
             self.game_round(@guess_array, @W.random_word, @turns)
             p @guess_array
-            self.save_game
+            #self.save_game
         end
         puts @W.random_word
-            
-        end
+        puts "Do you want to play again?"
+        puts "Enter Y for yes or N for no"
+        @play_again = gets.chomp.upcase
+
+        if @play_again == "N"
+            @run = false
+        end 
+
+
+    end
+    end
     def check_letter_guess(array, word, guess, turns)
         if word.include? guess
+            "Good guess!"
             word.each_char.with_index do |char, index|
               if char == guess
                 array[index] = char
             end
         end
             else
-                puts "Incorrect Guess"
+                puts "Incorrect Guess!"
                 turns[0] = turns[0] + 1;
         end
     
@@ -89,8 +103,31 @@ class Game
         puts "Keep Guessing!"
       end
     end
+def ask_to_save
+    puts "Do you want to save game?"
+    puts "Enter Y for yes or N for no"
+    choice = gets.chomp.upcase
+    if choice == "Y"
+        self.save_game
+        puts "Saved!"
+    elsif  choice == "N"
+        puts "Not Saved!"
+    else
+        puts "Invalid choice"
+        self.ask_to_save
+    end
 
+
+end
+def calculate_guesses_left(turns) 
+   @guesses_left = 7 - turns
+end
 def game_round(guess_array, random_word, turns)
+    self.ask_to_save
+    puts "You have #{calculate_guesses_left(@turns[0])} guesses left!"
+        puts "Enter guess"
+
+
      @guess = @p1.choose_letter_for_guess
     check_letter_guess(guess_array, random_word, @guess, turns)
     check_win(guess_array, random_word,turns)
